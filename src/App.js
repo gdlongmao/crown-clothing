@@ -2,37 +2,38 @@ import React from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "./pages/homepage/homepage";
 import ShopPage from "./pages/shop/shoppage";
+import CheckoutPage from "./pages/checkout/checkout";
 import SignInAndSignUpPage from "./components/sign-in-and-sign-up/sign-in-and-sign-up";
 import Header from "./components/header/header";
 import './App.css';
-import {setCurrentUser} from "./redux/user/user.actions";
-import {connect} from "react-redux";
-import {createStructuredSelector} from "reselect";
-import {selectCurrentUser} from "./redux/user/user.selector";
+import { setCurrentUser } from "./redux/user/user.actions";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/user/user.selector";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
 
   unsubscribeFromAuth = null;
 
-  componentDidMount(){
-    const {setCurrentUser} = this.props;
+  componentDidMount() {
+    const { setCurrentUser } = this.props;
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if(userAuth){
+      if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
-              id: snapShot.id,
-              ...snapShot.data()
+            id: snapShot.id,
+            ...snapShot.data()
           })
         });
       }
-     setCurrentUser(userAuth);
+      setCurrentUser(userAuth);
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
 
@@ -42,8 +43,14 @@ class App extends React.Component {
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/shop" component={ShopPage} />
-          <Route exact exact path="/signin" render={() => this.props.currentUser ? (<Redirect to="/" />) : (<SignInAndSignUpPage /> )} />
+          <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={CheckoutPage} /> 
+          <Route exact exact path="/signin"
+            render={() =>
+              this.props.currentUser ?
+                (<Redirect to="/" />) :
+                (<SignInAndSignUpPage />)}
+          />
         </Switch>
       </div>
     );
