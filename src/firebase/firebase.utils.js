@@ -19,8 +19,10 @@ const config = {
     }
 
     const userRef = firestore.doc(`users/${userAuth.uid}`);
+    const collectionRef = firestore.collection("user");
 
     const snapShot = await userRef.get();
+    const collectionSnapshopt = await collectionRef.get();
 
     if(!snapShot.exists){
       const {displayName, email} = userAuth;
@@ -39,10 +41,14 @@ const config = {
     }
 
     return userRef;
-  }
-
+  };
 
   firebase.initializeApp(config);
+
+  export const addCollectionAndDocuments = (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    console.log(collectionRef);
+  }
 
   export const auth = firebase.auth();
   export const firestore = firebase.firestore();
