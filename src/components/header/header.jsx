@@ -13,7 +13,7 @@ const Header = ({ currentUser, hidden }) => {
   return (
     <HeaderContainer>
       <LogoContainer to="/">
-        <Logo className="logo" />
+        <Logo />
       </LogoContainer>
       <OptionsContainer>
         <OptionLink to="/shop">
