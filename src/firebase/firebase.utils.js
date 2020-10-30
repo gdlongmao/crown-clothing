@@ -19,10 +19,8 @@ const config = {
     }
 
     const userRef = firestore.doc(`users/${userAuth.uid}`);
-    const collectionRef = firestore.collection("user");
 
     const snapShot = await userRef.get();
-    const collectionSnapshopt = await collectionRef.get();
 
     if(!snapShot.exists){
       const {displayName, email} = userAuth;
