@@ -20,7 +20,7 @@ export function* fetchCollectionsAsync() {
     }
 }
 
-export function* fetchCollectionsSatart() {
+export function* fetchCollectionsStart() {
     yield takeEvery(
         ShopActionTypes.FETCH_COLLECTIONS_START,
         fetchCollectionsAsync
